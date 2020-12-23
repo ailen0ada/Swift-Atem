@@ -199,6 +199,32 @@ extension Message.Did {
 	}
 }
 
+// MARK: Execute Macro
+extension Message.Do {
+    public struct MacroAction: SerializableMessage {
+        public static let title = Message.Title(string: "MAct")
+
+        public let macroIndex: UInt16
+        public let action: UInt8
+        
+        public init(with bytes: ArraySlice<UInt8>) throws {
+            macroIndex = UInt16(from: bytes[relative: 0..<4])
+            action = bytes[relative: 4]
+        }
+        
+        public init(macroIndex: UInt16, action: UInt8 = 0) {
+            self.macroIndex = macroIndex
+            self.action = action
+        }
+
+        public var dataBytes: [UInt8] {
+            return macroIndex.bytes + [action]
+        }
+        
+        public var debugDescription: String {return "Execute macro at index \(macroIndex)"}
+    }
+}
+
 // MARK: - TimeCode
 extension Message.Do {
 	public struct GetTimecode: SerializableMessage {
@@ -449,4 +475,3 @@ public extension Message.Did {
 		}
 	}
 }
-
