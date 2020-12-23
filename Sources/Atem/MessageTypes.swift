@@ -323,7 +323,7 @@ public struct ProgramBusChanged: Serializable {
 	public var debugDescription: String {return "Program bus changed to \(programBus) on ME\(mixEffect)"}
 }
 
-public struct MacroAction: Message {
+public struct MacroAction: Serializable {
    public static let title = MessageTitle(string: "MAct")
 
    public let macroIndex: UInt16
