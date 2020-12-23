@@ -323,6 +323,29 @@ public struct ProgramBusChanged: Serializable {
 	public var debugDescription: String {return "Program bus changed to \(programBus) on ME\(mixEffect)"}
 }
 
+public struct MacroAction: Message {
+   public static let title = MessageTitle(string: "MAct")
+
+   public let macroIndex: UInt16
+   public let action: UInt8
+   
+   public init(with bytes: ArraySlice<UInt8>) throws {
+       macroIndex = UInt16(from: bytes[relative: 0..<4])
+       action = bytes[relative: 4]
+   }
+   
+   public init(macroIndex: UInt16, action: UInt8 = 0) {
+       self.macroIndex = macroIndex
+       self.action = action
+   }
+
+   public var dataBytes: [UInt8] {
+       return macroIndex.bytes + [action]
+   }
+   
+   public var debugDescription: String {return "Execute macro at index \(macroIndex)"}
+}
+
 /// Informs a controller that the switchers timecode has changed
 public struct NewTimecode: Message {
 	public typealias Timecode = (hour: UInt8, minute: UInt8, second: UInt8, frame: UInt8)
