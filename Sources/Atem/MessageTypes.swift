@@ -340,7 +340,7 @@ public struct MacroAction: Serializable {
    }
 
    public var dataBytes: [UInt8] {
-       return macroIndex.bytes + [action]
+       return macroIndex.bytes + [action, 0]
    }
    
    public var debugDescription: String {return "Execute macro at index \(macroIndex)"}
